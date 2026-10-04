@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Karam Cookie Clicker – Update</title>
+<style>
+:root{--bg:#fdf3e3;--fg:#3b2412;--card:#fff;--acc:#b45309;--mut:#8b6b4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c120a;--fg:#f5e6d3;--card:#2a1b10;--acc:#f59e0b;--mut:#b89a7a}}
+:root[data-theme="dark"]{--bg:#1c120a;--fg:#f5e6d3;--card:#2a1b10;--acc:#f59e0b;--mut:#b89a7a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,sans-serif;touch-action:manipulation;-webkit-user-select:none;user-select:none;display:flex;flex-direction:column;overflow:hidden;max-width:560px;margin:0 auto}
+header{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 12px}
+#st{white-space:nowrap;font-size:13px;color:var(--mut)}
+#mini{font-size:15px;color:var(--acc)}
+.tab{flex:1;min-height:0;overflow-y:auto;padding:8px 12px;-webkit-overflow-scrolling:touch}
+.tab[hidden]{display:none}
+#t-cookie{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#cnt{font-size:40px;font-weight:800}
+#cps{color:var(--mut);font-size:15px}
+#ck{font-size:min(58vw,34vh);line-height:1;background:none;border:0;padding:8px;cursor:pointer;transition:transform .06s;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+#ck:active{transform:scale(.92)}
+#hint{font-size:13px;color:var(--mut);margin-top:6px}
+.pop{position:fixed;pointer-events:none;font-weight:800;color:var(--acc);font-size:20px;animation:up .8s forwards;z-index:9}
+@keyframes up{to{transform:translateY(-70px);opacity:0}}
+@keyframes pulse{50%{transform:scale(1.25)}}
+.up,.ab{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:56px;margin-bottom:8px;padding:10px 14px;border-radius:14px;border:2px solid var(--acc);background:var(--card);color:var(--fg);font-size:16px;text-align:left}
+.up:disabled{opacity:.4}
+.up small{display:block;color:var(--mut);font-size:13px}
+.ab{justify-content:center;min-height:48px;margin:0;flex:1;font-weight:700;text-align:center}
+.in{flex:1;min-width:0;padding:10px;border-radius:12px;border:2px solid var(--acc);background:var(--card);color:var(--fg);font-size:18px;-webkit-user-select:text;user-select:text}
+.g{display:flex;gap:6px;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;padding:6px 0;font-size:16px}
+.me{color:var(--acc);font-weight:700}
+.ib{background:none;border:0;font-size:18px;padding:4px 6px}
+h3{margin:4px 0 8px}
+#buff{margin:0 12px;padding:8px 12px;border-radius:12px;background:var(--acc);color:var(--bg);text-align:center;font-weight:700;font-size:15px}
+#buff[hidden]{display:none}
+nav{display:flex;background:var(--card);border-top:1px solid #8884}
+nav button{flex:1;padding:12px 0;font-size:22px;background:none;border:0;color:var(--fg);opacity:.5;-webkit-tap-highlight-color:transparent}
+nav button.on{opacity:1;border-top:3px solid var(--acc)}
+#lobby{position:fixed;inset:0;background:var(--bg);z-index:20;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:20px;max-width:560px;margin:0 auto}
+#lobby h1{text-align:center;margin:0 0 6px}
+#err{color:#dc2626;text-align:center;min-height:20px;font-size:14px}
+
+:root{--acc:#2563eb;--bg:#07111f;--fg:#eaf2ff;--card:#101f33;--mut:#9eb4d0}
+body{background:radial-gradient(ellipse at top,#152d4c 0%,var(--bg) 58%);max-width:620px}
+header,nav{background:rgba(10,24,42,.94);backdrop-filter:blur(12px)}
+.up,.ab,.in{border-radius:16px;border-color:#3b82f6;box-shadow:0 5px 18px #0002}
+.up:active,.ab:active{transform:scale(.985)}
+#ck{filter:drop-shadow(0 10px 24px #f59e0b55)}
+#cnt{background:linear-gradient(90deg,#fde68a,#f59e0b);background-clip:text;-webkit-background-clip:text;color:transparent}
+.cardx{background:var(--card);border:1px solid #3b82f655;border-radius:16px;padding:12px;margin:8px 0}
+.meter{height:8px;background:#ffffff20;border-radius:99px;overflow:hidden;margin-top:7px}.meter span{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#fbbf24);width:0}
+.pill{display:inline-block;border-radius:999px;padding:4px 8px;background:#2563eb22;color:#93c5fd;font-size:12px;font-weight:700}
+#goldCookie{position:fixed;z-index:12;display:none;border:0;background:none;font-size:58px;filter:drop-shadow(0 0 18px #fbbf24);animation:pulse .7s infinite}
+nav button{font-size:20px}
+nav button.dot::after{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-left:1px;vertical-align:top}
+.ab:disabled{opacity:.4}
+#ann{margin:6px 12px 0;padding:10px 12px;border-radius:12px;background:#2563eb;color:#fff;text-align:center;font-weight:700;font-size:15px}
+#ann[hidden]{display:none}
+.sk{flex:0 0 31%!important;flex-direction:column;font-size:13px;min-height:70px!important;padding:4px!important}
+.sk i{font-style:normal;font-size:26px}
+.sk.sel{background:var(--acc);color:var(--bg)}
+</style></head>
+<body>
+<div id="lobby">
+  <h1>🍪 Cookie Clicker</h1>
+  <input class="in" id="nm" maxlength="12" placeholder="Dein Name" value="KM9" style="flex:none">
+  <button class="ab" id="bGo" style="flex:none">Los geht's</button>
+  <div id="err"></div>
+</div>
+<header><span id="st">⚪ Verbinde …</span><span><button class="ib" id="bName">✏️</button><button class="ib" id="bLock">🔒</button><b id="mini"></b></span></header>
+<div id="buff" hidden></div>
+<div id="ann" hidden></div>
+<section class="tab" id="t-cookie"><div id="cnt">0</div><div id="cps">0 pro Sekunde</div><div id="tm" style="font-size:14px;margin:8px 0 4px"></div><div class="meter" style="width:70%;margin:0 0 4px"><span id="tb"></span></div><div id="boss" hidden style="margin:6px 0;padding:8px 12px;border-radius:12px;background:#dc2626;color:#fff;font-weight:700;font-size:14px"></div><button id="ck" aria-label="Cookie">🍪</button><div id="hint"></div></section>
+<section class="tab" id="t-cshop" hidden><h3>👆 Klick-Shop</h3><div id="cs"></div></section>
+<section class="tab" id="t-ups" hidden><h3>🤖 Auto-Shop</h3><div id="ups"></div></section>
+<section class="tab" id="t-rewards" hidden>
+<h3>🎁 Belohnungen & Quests</h3><div id="dailyBox" class="cardx"></div><div id="questList"></div>
+<h3>⏱️ Spielzeit-Belohnungen</h3><div id="plt" style="color:var(--mut);margin-bottom:6px"></div><div id="ptl"></div>
+<h3>🎨 Skins</h3><div id="skinList" class="g" style="flex-wrap:wrap"></div>
+<h3>✨ Spezial-Cookie-Skins</h3><div class="cardx"><div style="font-size:13px;color:var(--mut);margin-bottom:8px">Spezial-Skins geben dauerhafte Boni, wenn du sie ausrüstest.</div><div id="specialSkinList" class="g" style="flex-wrap:wrap"></div></div>
+<h3>🎟️ Promo-Code einlösen</h3><div class="cardx"><div class="g"><input class="in" id="promoInput" maxlength="32" placeholder="Code eingeben"><button class="ab" id="promoRedeem" style="flex:0 0 112px">Einlösen</button></div><div id="promoStatus" aria-live="polite" style="font-size:13px;color:var(--mut);margin-top:8px">Gib einen gültigen Code ein.</div></div>
+<h3>💾 Spielstand sichern</h3><div class="cardx"><div style="font-size:13px;color:var(--mut);margin-bottom:8px">Exportiere deinen Spielstand regelmäßig. Der alte Speicher bleibt kompatibel.</div><div class="g"><button class="ab" id="bExport">Exportieren</button><button class="ab" id="bImport">Importieren</button></div><textarea class="in" id="saveCode" rows="4" style="width:100%;font-size:12px;margin-top:8px" placeholder="Export-Code erscheint hier – zum Import hier einfügen"></textarea></div>
+</section>
+<section class="tab" id="t-prestige" hidden><h3>🌌 Prestige</h3><div class="cardx"><div id="prestigeInfo"></div><div class="meter"><span id="prestigeBar"></span></div><p style="font-size:13px;color:var(--mut)">Prestige setzt Kekse und gekaufte Upgrades zurück, gibt dir aber permanente Boni. Exportiere vorher deinen Spielstand.</p><button class="ab" id="bPrestige" style="width:100%">Prestige starten</button></div></section>
+<section class="tab" id="t-team" hidden><h3>🏆 Bestenlisten</h3><div class="g"><button class="ab" id="rankCookies">🍪 Kekse</button><button class="ab" id="rankTime">⏱️ Spielzeit</button><button class="ab" id="rankWeek">📅 Woche</button></div><div class="cardx" id="rankNote">Sortiert nach verdienten Keksen seit dem letzten Ranglisten-Reset.</div><div id="bd"></div><div class="row"><span>Team gesamt</span><b id="team">0 🍪</b></div>
+<h3>💸 Kekse senden</h3><div class="cardx"><div style="font-size:13px;color:var(--mut);margin-bottom:6px">An Spieler, die gerade online sind.</div><select class="in" id="payTo" style="width:100%;margin-bottom:6px"></select><div class="g"><input class="in" id="payAmt" type="number" inputmode="numeric" min="1" placeholder="Menge"><button class="ab" id="payAll" style="flex:0 0 80px">Alles</button></div><button class="ab" id="payGo" style="width:100%">Senden</button></div></section>
+<section class="tab" id="t-admin" hidden>
+  <h3>🛠️ Admin-Konsole</h3>
+  <div class="cardx"><b>📡 Server-Status</b><div id="aStatus" style="font-size:13px;color:var(--mut);margin:6px 0">Warte auf Verbindung …</div><button class="ab" id="aSync" style="width:100%">🔄 Verbindung / Spieler aktualisieren</button></div>
+  <div>💰 Mein Kontostand</div><div class="g" id="aSelf"></div><div class="g"><input class="in" id="aSelfAmount" type="number" min="0" step="1" placeholder="Betrag"><button class="ab" id="aSelfSet">Kontostand setzen</button></div>
+  <div><button class="ab" id="aGod" style="width:100%;margin-bottom:10px"></button></div>
+  <div>Multiplikator (1–1000) und Dauer in Minuten (0 = unbegrenzt)</div><div class="g"><input class="in" id="aMult" type="number" inputmode="numeric" min="1" max="1000" value="1"><input class="in" id="aDur" type="number" inputmode="numeric" min="0" max="1440" value="2"><button class="ab" id="aMultGo">Setzen</button></div>
+  <div>🎁 Allen geben</div><div class="g" id="aAll"></div><div class="g"><input class="in" id="aAllAmount" type="number" min="0" step="1" placeholder="Betrag für alle"><button class="ab" id="aAllCustom">Allen geben</button></div>
+  <div class="cardx"><b>📢 Nachricht an alle</b><div class="g" style="margin-top:6px"><input class="in" id="aAnn" maxlength="140" placeholder="Text …"><button class="ab" id="aAnnGo" style="flex:0 0 90px">Senden</button></div></div>
+  <div class="cardx"><b>👹 Boss-Event</b><div class="g" style="margin-top:6px"><input class="in" id="bossName" maxlength="20" value="Keks-Monster"><input class="in" id="bHp" type="number" value="3000" placeholder="HP (Tipps)"><input class="in" id="bMin" type="number" value="5" placeholder="Min"></div><div class="g"><button class="ab" id="bossStart">Boss starten</button><button class="ab" id="bEnd">Beenden</button></div></div>
+  <div class="cardx"><b>🛡️ Moderation</b><select class="in" id="modTo" style="width:100%;margin:6px 0"></select><div class="g"><button class="ab" id="mRen">✏️ Umbenennen</button><button class="ab" id="mWarn">⚠️ Warnen</button></div><div class="g"><button class="ab" id="mMute">🔇 Stumm an/aus</button><button class="ab" id="mKick">🚫 Rauswerfen</button></div></div>
+  <div>👤 Einzelne Spieler verwalten</div><div id="aList"></div>
+  <div class="cardx"><b>🎟️ Promo-Code erstellen / löschen</b><p style="font-size:13px;color:var(--mut)">Codes können Cookies, einen Spezial-Skin oder beides vergeben. Die Code-Verwaltung wird über Admin-Befehle an aktuell verbundene Spieler verteilt.</p><div class="g"><input class="in" id="promoNewCode" maxlength="32" placeholder="z. B. KARAM2026"><input class="in" id="promoNewCookies" type="number" min="0" max="10000000000000" value="10000" placeholder="Cookies"></div><div class="g"><select class="in" id="promoNewSkin"><option value="">Kein Spezial-Skin</option></select><button class="ab" id="promoCreate">Code erstellen</button></div><div id="promoAdminList" style="font-size:13px;margin-top:8px"></div></div>
+  <div class="cardx"><b>🎁 Spezial-Skin an Spieler vergeben</b><div class="g"><select class="in" id="skinTo" aria-label="Spieler auswählen"></select><select class="in" id="skinGive" aria-label="Spezial-Skin auswählen"></select></div><button class="ab" id="skinGiveGo" style="width:100%">Skin vergeben</button><div style="font-size:12px;color:var(--mut);margin-top:6px">Der Spieler muss online sein, damit der Admin-Befehl direkt ankommt.</div></div>
+  <div class="cardx"><b>🏆 Bestenliste zurücksetzen</b><p style="font-size:13px;color:var(--mut)">Setzt den Keks-Ranglisten-Zähler für die aktuell verbundenen Spieler zurück. Spielstände und Spielzeit bleiben erhalten.</p><button class="ab" id="aResetBoard" style="width:100%">Keks-Bestenliste resetten</button></div><div class="cardx"><b>🧾 Letzte Admin-Aktionen</b><p style="font-size:13px;color:var(--mut)">Lokales Protokoll auf diesem Gerät; kein serverweiter Sicherheits- oder Audit-Log.</p><div id="aLog" style="font-size:13px;max-height:180px;overflow:auto">Noch keine Aktionen.</div><button class="ab" id="aClearLog" style="width:100%;margin-top:8px">Protokoll leeren</button></div>
+</section>
+<section class="tab" id="t-chat" hidden><h3>💬 Chat</h3><div id="chatBox" class="cardx" style="height:45vh;overflow-y:auto;font-size:15px"></div><div class="g"><input class="in" id="chatIn" maxlength="120" placeholder="Nachricht …"><button class="ab" id="chatGo" style="flex:0 0 90px">Senden</button></div></section>
+<nav><button data-t="cookie" class="on">🍪</button><button data-t="cshop">👆</button><button data-t="ups">🤖</button><button data-t="rewards" id="navRw">🎁</button><button data-t="prestige">🌌</button><button data-t="team">🏆</button><button data-t="chat" id="navChat">💬</button><button data-t="admin" id="navAdmin" hidden>🛠️</button></nav><button id="goldCookie" aria-label="Goldener Keks">🍪</button>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const DEFS=[
+ {k:'click',n:'👆 Klick-Power',d:'+1 pro Klick',base:15,g:1.6,click:1},
+ {k:'clickA',n:'🤜 Starke Hand',d:'+3 pro Klick',base:120,g:1.6,click:3},
+ {k:'clickC',n:'🥊 Boxhandschuh',d:'+6 pro Klick',base:700,g:1.62,click:6},
+ {k:'click2',n:'⚡ Turbo-Finger',d:'+10 pro Klick',base:2500,g:1.65,click:10},
+ {k:'clickB',n:'🔧 Keks-Zange',d:'+30 pro Klick',base:20000,g:1.68,click:30},
+ {k:'clickD',n:'🛠️ Präzisions-Hand',d:'+60 pro Klick',base:45000,g:1.7,click:60},
+ {k:'click3',n:'💎 Keks-Kristall',d:'+100 pro Klick',base:75000,g:1.7,click:100},
+ {k:'clickE',n:'🧲 Magnet-Hand',d:'+300 pro Klick',base:250000,g:1.72,click:300},
+ {k:'click4',n:'🌠 Kosmischer Klick',d:'+1.000 pro Klick',base:1500000,g:1.75,click:1000},
+ {k:'clickF',n:'🔱 Dreizack-Griff',d:'+3.000 pro Klick',base:6000000,g:1.78,click:3000},
+ {k:'click5',n:'🔥 Feuer-Finger',d:'+10.000 pro Klick',base:30000000,g:1.8,click:10000},
+ {k:'clickG',n:'🦾 Cyber-Arm',d:'+30.000 pro Klick',base:100000000,g:1.82,click:30000},
+ {k:'click6',n:'🌋 Magma-Faust',d:'+100.000 pro Klick',base:500000000,g:1.85,click:100000},
+ {k:'clickH',n:'🐉 Drachen-Faust',d:'+300.000 pro Klick',base:2000000000,g:1.88,click:300000},
+ {k:'click7',n:'☄️ Meteor-Schlag',d:'+1.000.000 pro Klick',base:8000000000,g:1.9,click:1000000},
+ {k:'clickI',n:'🌀 Wirbel-Schlag',d:'+3.000.000 pro Klick',base:40000000000,g:1.92,click:3000000},
+ {k:'click8',n:'🌟 Sternen-Klick',d:'+10.000.000 pro Klick',base:150000000000,g:2,click:10000000},
+ {k:'click9',n:'🌌 Galaxie-Klick',d:'+100.000.000 pro Klick',base:2500000000000,g:2,click:100000000},
+ {k:'click10',n:'🕳️ Singularitäts-Klick',d:'+1.000.000.000 pro Klick',base:40000000000000,g:2.05,click:1000000000},
+ {k:'click11',n:'⚛️ Atom-Spalter',d:'+10.000.000.000 pro Klick',base:700000000000000,g:2.1,click:10000000000},
+ {k:'click12',n:'👑 Götter-Finger',d:'+100.000.000.000 pro Klick',base:12000000000000000,g:2.15,click:100000000000},
+ {k:'k2',n:'🧤 Legacy: Starke Finger',d:'+5 pro Klick · alter Spielstand',base:500,g:1.6,click:5},
+ {k:'k3',n:'🔨 Legacy: Keks-Hammer',d:'+25 pro Klick · alter Spielstand',base:8000,g:1.6,click:25},
+ {k:'k4',n:'⚡ Legacy: Blitz-Finger',d:'+150 pro Klick · alter Spielstand',base:120000,g:1.6,click:150},
+ {k:'k5',n:'🌋 Legacy: Vulkan-Klick',d:'+1.000 pro Klick · alter Spielstand',base:2000000,g:1.6,click:1000},
+ {k:'oma',n:'👵 Oma',d:'+1 pro Sekunde',base:50,g:1.15,cps:1},
+ {k:'lehrling',n:'🧑‍🍳 Lehrling',d:'+3 pro Sekunde',base:150,g:1.15,cps:3},
+ {k:'bak',n:'🏪 Bäckerei',d:'+6 pro Sekunde',base:400,g:1.15,cps:6},
+ {k:'fab',n:'🏭 Fabrik',d:'+40 pro Sekunde',base:3000,g:1.15,cps:40},
+ {k:'markt',n:'🛒 Keks-Markt',d:'+100 pro Sekunde',base:9000,g:1.15,cps:100},
+ {k:'mine',n:'⛏️ Keks-Mine',d:'+250 pro Sekunde',base:25000,g:1.15,cps:250},
+ {k:'portal',n:'🌀 Keks-Portal',d:'+1.500 pro Sekunde',base:200000,g:1.15,cps:1500},
+ {k:'zeit',n:'⏳ Zeitmaschine',d:'+10.000 pro Sekunde',base:2000000,g:1.15,cps:10000},
+ {k:'schiff',n:'🚀 Keks-Raumschiff',d:'+25.000 pro Sekunde',base:7000000,g:1.155,cps:25000},
+ {k:'labor',n:'🧪 Keks-Labor',d:'+60.000 pro Sekunde',base:18000000,g:1.16,cps:60000},
+ {k:'planet',n:'🪐 Keks-Planet',d:'+150.000 pro Sekunde',base:60000000,g:1.165,cps:150000},
+ {k:'galaxy',n:'🌌 Keks-Galaxie',d:'+400.000 pro Sekunde',base:180000000,g:1.17,cps:400000},
+ {k:'sternenreich',n:'⭐ Sternenreich',d:'+1.200.000 pro Sekunde',base:600000000,g:1.175,cps:1200000},
+ {k:'multiverse',n:'🪐 Multiversum-Bäckerei',d:'+3.000.000 pro Sekunde',base:2200000000,g:1.18,cps:3000000},
+ {k:'dyson',n:'☀️ Dyson-Sphäre',d:'+25.000.000 pro Sekunde',base:30000000000,g:1.19,cps:25000000},
+ {k:'blackhole',n:'🕳️ Schwarzes Loch',d:'+180.000.000 pro Sekunde',base:400000000000,g:1.2,cps:180000000},
+ {k:'dimension',n:'🔮 Dimensions-Ofen',d:'+1.200.000.000 pro Sekunde',base:6000000000000,g:1.21,cps:1200000000},
+ {k:'weltall',n:'🌍 Universum-Fabrik',d:'+9.000.000.000 pro Sekunde',base:90000000000000,g:1.22,cps:9000000000}
+];
+const BASE={c:0,t:0,rankBase:0,playSeconds:0,own:{},god:false,prestige:0,prestigeTotal:0,ptClaimed:[],boost:{m:1,end:0},pid:'',daily:{day:'',streak:0},quests:{day:'',clicks:0,bought:0,claimed:[]},event:{last:0},specialSkins:[],equippedSpecial:'',promoCodes:[],redeemedCodes:[]};
+let S={...BASE,own:{},daily:{...BASE.daily},quests:{...BASE.quests}};
+try{const raw=localStorage.getItem('cc_save');const old=raw?JSON.parse(raw):null;if(old&&typeof old.c==='number'){S={...BASE,...old,own:{...(old.own||{})},daily:{...BASE.daily,...(old.daily||{})},quests:{...BASE.quests,...(old.quests||{})}};localStorage.setItem('cc_save_bak',raw)}const n=localStorage.getItem('cc_name');if(n)$('nm').value=n}catch(e){}
+function fixS(){S.ptClaimed=Array.isArray(S.ptClaimed)?[...S.ptClaimed]:[];S.boost=(S.boost&&typeof S.boost==='object')?{m:Math.max(1,+S.boost.m||1),end:+S.boost.end||0}:{m:1,end:0};if(!S.pid)S.pid=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);if(!Array.isArray(S.skins))S.skins=['🍪'];else S.skins=[...S.skins];if(!S.skin)S.skin='🍪';if(!Array.isArray(S.specialSkins))S.specialSkins=[];if(!Array.isArray(S.promoCodes))S.promoCodes=[];if(!Array.isArray(S.redeemedCodes))S.redeemedCodes=[];if(!S.equippedSpecial||!S.specialSkins.includes(S.equippedSpecial))S.equippedSpecial='';if(!S.wk||typeof S.wk!=='object')S.wk={key:'',base:0};S.lastSeen=+S.lastSeen||0}
+fixS();
+const known=new Map();
+let paySig='',curBoss=null,boss=null,pend=0,myDmg=0,myBossId=0,kicked=false,unread=false,hiddenAt=0,annT=null;
+const chat=[],chatLog=[],banned=new Set();
+function showAnn(t,ms){const a=$('ann');a.textContent=t;a.hidden=false;clearTimeout(annT);annT=setTimeout(()=>{a.hidden=true},ms||12000)}
+// Chat
+function renderChat(){const b=$('chatBox');b.textContent='';chat.forEach(m=>{const d=document.createElement('div');const n=document.createElement('b');n.textContent=m.from+': ';d.append(n,document.createTextNode(m.text));b.appendChild(d)});b.scrollTop=b.scrollHeight}
+function addChat(m){chat.push({from:String(m.from||'?').slice(0,12),text:String(m.text||'').slice(0,120)});if(chat.length>50)chat.shift();if($('t-chat').hidden){unread=true;$('navChat').classList.add('dot')}else renderChat()}
+function sendChat(){const t=$('chatIn').value.trim().slice(0,120);if(!t)return;$('chatIn').value='';
+  if(hosting){const m={type:'chat',from:nm(),text:t,ts:Date.now()};chatLog.push(m);if(chatLog.length>50)chatLog.shift();conns.forEach(q=>safe(q.c,m));addChat(m)}
+  else if(conn&&conn.open)safe(conn,{type:'chat',text:t});else toast('Keine Verbindung')}
+$('chatGo').onclick=sendChat;$('chatIn').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+$('navChat').addEventListener('click',()=>{unread=false;$('navChat').classList.remove('dot');renderChat()});
+// Boss
+function checkBoss(){if(boss&&boss.hp<=0){const m={type:'bossdown',id:boss.id};boss=null;curBoss=null;conns.forEach(p=>safe(p.c,m));onClient(m)}}
+setInterval(()=>{const b=$('boss');if(!curBoss){b.hidden=true;return}const left=Math.max(0,Math.ceil((curBoss.left-(Date.now()-(curBoss.at||Date.now())))/1000));b.hidden=false;b.textContent='👹 '+curBoss.name+': '+Math.max(0,Math.ceil(curBoss.hp))+' / '+curBoss.max+' HP · '+Math.floor(left/60)+':'+String(left%60).padStart(2,'0')+' · tippe auf den Keks!'},500);
+// Skins
+const SK=[['🍪','Klassik',0],['🍩','Donut',5e4],['🧁','Cupcake',5e5],['🥮','Mondkuchen',5e6],['🍰','Torte',5e7],['🟩','Gras-Block',5e8],['💎','Diamant',5e9],['🐉','Drache',5e10],['🌍','Erde',1e12]];
+const skEls=SK.map(([e,n,pr])=>{const b=document.createElement('button');b.className='ab sk';$('skinList').appendChild(b);
+  b.onclick=()=>{if(S.skins.indexOf(e)<0){if(S.c<pr){toast('Zu teuer');return}S.c-=pr;S.skins.push(e)}S.equippedSpecial='';S.skin=e;$('ck').textContent=e;saveNow();skUpdate();specialSkinUpdate();ui()};return{e,n,pr,b}});
+function skUpdate(){skEls.forEach(x=>{const own=S.skins.indexOf(x.e)>=0;x.b.textContent='';const i=document.createElement('i');i.textContent=x.e;const t=document.createElement('span');t.textContent=x.n+' · '+(S.skin===x.e?'✓ aktiv':own?'wählen':fmt(x.pr)+' 🍪');x.b.append(i,t);x.b.classList.toggle('sel',S.skin===x.e)})}
+// Spezial-Skins mit dauerhaftem Bonus, separat von den normalen Skins.
+const SPECIAL_SKINS=[
+ {id:'blue',emoji:'🧊',name:'Eis-Keks',click:1.05,prod:1.05,desc:'+5% Klick & Produktion'},
+ {id:'gold',emoji:'🌟',name:'Gold-Keks',click:1.10,prod:1.05,desc:'+10% Klick, +5% Produktion'},
+ {id:'shadow',emoji:'🌑',name:'Schatten-Keks',click:1.05,prod:1.15,desc:'+5% Klick, +15% Produktion'},
+ {id:'diamond',emoji:'💠',name:'Diamant-Keks',click:1.15,prod:1.15,desc:'+15% Klick & Produktion'},
+ {id:'cosmic',emoji:'🌌',name:'Kosmos-Keks',click:1.25,prod:1.25,desc:'+25% Klick & Produktion'}
+];
+const specialById=id=>SPECIAL_SKINS.find(x=>x.id===id);
+function specialMult(kind){const x=specialById(S.equippedSpecial);return x?(kind==='click'?x.click:x.prod):1}
+function specialSkinUpdate(){
+ if(!Array.isArray(S.specialSkins))S.specialSkins=[];
+ const box=$('specialSkinList');if(!box)return;box.textContent='';
+ SPECIAL_SKINS.forEach(x=>{const owned=S.specialSkins.includes(x.id),b=document.createElement('button');b.className='ab sk'+(S.equippedSpecial===x.id?' sel':'');b.disabled=!owned;b.innerHTML='';const i=document.createElement('i');i.textContent=x.emoji;const t=document.createElement('span');t.textContent=x.name+' · '+(S.equippedSpecial===x.id?'✓ aktiv':owned?'Ausrüsten':'🔒 '+x.desc);b.append(i,t);b.onclick=()=>{if(!owned)return;S.equippedSpecial=x.id;S.skin=x.emoji;$('ck').textContent=x.emoji;saveNow();skUpdate();specialSkinUpdate();ui();toast(x.emoji+' '+x.name+' ausgerüstet')};box.appendChild(b)});
+}
+function promoCodeNormalize(v){return String(v||'').trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'').slice(0,32)}
+function promoCodes(){if(!Array.isArray(S.promoCodes))S.promoCodes=[];return S.promoCodes}
+function promoAdminRender(){const el=$('promoAdminList');if(!el)return;el.textContent='';const list=promoCodes();if(!list.length){el.textContent='Noch keine Codes erstellt.';return}list.forEach(x=>{const row=document.createElement('div');row.className='row';const info=document.createElement('span');const sk=specialById(x.skin);info.textContent=x.code+' · '+fmt(x.cookies||0)+' 🍪'+(sk?' + '+sk.emoji+' '+sk.name:'');const del=document.createElement('button');del.className='ab';del.style.flex='0 0 92px';del.textContent='🗑️ Löschen';del.onclick=()=>{if(!confirm('Code '+x.code+' wirklich löschen?'))return;adminCmd({c:'promoDelete',to:'all',code:x.code});promoCodes().splice(promoCodes().findIndex(y=>y.code===x.code),1);saveNow();promoAdminRender();toast('Code-Löschung gesendet')};row.append(info,del);el.appendChild(row)})}
+function promoRedeem(){const code=promoCodeNormalize($('promoInput').value);const status=$('promoStatus');if(!code){status.textContent='❌ Bitte einen Code eingeben.';return}if(!Array.isArray(S.redeemedCodes))S.redeemedCodes=[];if(S.redeemedCodes.includes(code)){status.textContent='❌ Diesen Code hast du bereits eingelöst.';return}const x=promoCodes().find(y=>y.code===code);if(!x){status.textContent='❌ Code unbekannt. Prüfe die Schreibweise.';return}const amount=Math.max(0,Math.min(1e13,Math.floor(+x.cookies||0)));if(amount){S.c+=amount;S.t+=amount}const skin=specialById(x.skin);if(skin&&!S.specialSkins.includes(skin.id))S.specialSkins.push(skin.id);S.redeemedCodes.push(code);$('promoInput').value='';saveNow();ui();specialSkinUpdate();status.textContent='✅ Code eingelöst! '+(amount?'+'+fmt(amount)+' 🍪 ':'')+(skin?'Du hast '+skin.emoji+' '+skin.name+' erhalten.':'');toast('🎁 Promo-Code eingelöst!')}
+$('promoRedeem').onclick=promoRedeem;$('promoInput').addEventListener('keydown',e=>{if(e.key==='Enter')promoRedeem()});
+function fillSpecialSkinSelects(){['promoNewSkin','skinGive'].forEach(id=>{const el=$(id);if(!el)return;const first=id==='promoNewSkin'?'Kein Spezial-Skin':'Skin auswählen';el.textContent='';const z=document.createElement('option');z.value='';z.textContent=first;el.appendChild(z);SPECIAL_SKINS.forEach(x=>{const o=document.createElement('option');o.value=x.id;o.textContent=x.emoji+' '+x.name+' ('+x.desc+')';el.appendChild(o)})})}
+fillSpecialSkinSelects();
+$('promoCreate').onclick=()=>{if(!isAdmin||!admCode){toast('Nur Admins können Codes erstellen');return}const code=promoCodeNormalize($('promoNewCode').value),cookies=Math.floor(Number($('promoNewCookies').value)||0),skin=$('promoNewSkin').value;if(code.length<3){toast('Code muss mindestens 3 Zeichen haben');return}if(!Number.isSafeInteger(cookies)||cookies<0||cookies>1e13||(!cookies&&!skin)){toast('Bitte eine gültige Belohnung festlegen');return}if(promoCodes().some(x=>x.code===code)){toast('Diesen Code gibt es schon');return}const entry={code,cookies,skin:skin||''};promoCodes().push(entry);adminCmd({c:'promoCreate',to:'all',code,cookies,skin:entry.skin});saveNow();promoAdminRender();$('promoNewCode').value='';toast('🎟️ Code erstellt: '+code)};
+$('skinGiveGo').onclick=()=>{if(!isAdmin||!admCode){toast('Nur Admins können Skins vergeben');return}const to=$('skinTo').value,skin=$('skinGive').value;if(!to||!skin){toast('Spieler und Skin auswählen');return}const x=specialById(skin);if(!x)return;if(!confirm(x.emoji+' '+x.name+' an den ausgewählten Online-Spieler vergeben?'))return;adminCmd({c:'skin',to,skin});toast('🎁 Skin-Vergabe gesendet')};
+// Woche
+const wkKey=()=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const weekEarned=()=>Math.max(0,S.t-(S.wk.base||0));
+function weekCheck(){const k=wkKey();if(S.wk.key===k)return;
+  if(S.wk.key){const arr=players.filter(p=>p.pid&&p.pid!==S.pid).map(p=>+p.w||0),mine=weekEarned(),rank=arr.filter(v=>v>mine).length;
+    if(mine>0&&rank<3){const a=Math.floor([1e5+cps()*3600,5e4+cps()*1800,25000+cps()*900][rank]);S.c+=a;S.t+=a;showAnn('🏅 Wochen-Platz '+(rank+1)+'! +'+fmt(a)+' 🍪',15000)}}
+  S.wk={key:k,base:S.t};saveNow()}
+setInterval(weekCheck,10000);
+// Offline-Verdienst (20 %)
+function grantAway(sec){sec=Math.min(sec,28800);if(sec>60&&cps()>0){const a=Math.floor(cps()*sec*0.2);if(a>0){S.c+=a;S.t+=a;showAnn('💤 Offline verdient: +'+fmt(a)+' 🍪 ('+Math.round(sec/60)+' Min, 20 %)',12000)}}}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)hiddenAt=Date.now();else if(hiddenAt){const s2=(Date.now()-hiddenAt)/1000;hiddenAt=0;grantAway(s2)}});
+// Admin: Nachricht, Boss, Moderation
+$('aAnnGo').onclick=()=>{const t=$('aAnn').value.trim();if(t){adminCmd({c:'announce',text:t});$('aAnn').value=''}};
+$('bossStart').onclick=()=>adminCmd({c:'boss',name:$('bossName').value,hp:+$('bHp').value,min:+$('bMin').value});
+$('bEnd').onclick=()=>adminCmd({c:'bossend'});
+const modId=()=>$('modTo').value;
+$('mRen').onclick=()=>{const n=prompt('Neuer Name:');if(n&&modId())adminCmd({c:'rename',to:modId(),name:n})};
+$('mWarn').onclick=()=>{const t=prompt('Verwarnung:','Bitte benimm dich.');if(t&&modId())adminCmd({c:'warn',to:modId(),text:t})};
+$('mMute').onclick=()=>{if(modId()){adminCmd({c:'mute',to:modId()});toast('🔇 umgeschaltet')}};
+$('mKick').onclick=()=>{if(modId()&&confirm('Spieler wirklich rauswerfen?'))adminCmd({c:'kick',to:modId()})};
+let paySig2='';
+$('payAll').onclick=()=>{$('payAmt').value=Math.floor(S.c)};
+$('payGo').onclick=()=>{const to=$('payTo').value,a=Math.floor(+$('payAmt').value||0);
+  if(!to||a<1)return;if(a>S.c){toast('Nicht genug Kekse');return}
+  if(hosting){const q=conns.get(to);if(!q){toast('Spieler nicht mehr online');return}S.c-=a;safe(q.c,{type:'gift',a:a,from:nm()})}
+  else if(conn&&conn.open){S.c-=a;safe(conn,{type:'pay',to:to,a:a})}
+  else{toast('Keine Verbindung');return}
+  toast('💸 −'+fmt(a));$('payAmt').value='';saveNow();ui()};
+let peer=null,conn=null,hosting=false,isAdmin=false,started=false,admCode='',conns=new Map(),players=[],gm=1,gmEnd=0,gs=-1,myG=-1,aM=1,aEnd=0,aSig='',aEls={},lastGm=1,rankMode='cookies';
+const playFmt=s=>{s=Math.max(0,Math.floor(+s||0));const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return (d?d+'d ':'')+h+'h '+m+'m'};
+$('rankCookies').onclick=()=>{rankMode='cookies';board()};$('rankTime').onclick=()=>{rankMode='time';board()};$('rankWeek').onclick=()=>{rankMode='week';board()};
+const nm=()=>($('nm').value.trim()||'Spieler').slice(0,12);
+const own=k=>S.own[k]||0;
+const cost=d=>Math.ceil(d.base*Math.pow(d.g,own(d.k)));
+const boostMult=()=>(S.boost&&S.boost.end>Date.now())?S.boost.m:1;
+const prestigeMultiplier=()=>1+(S.prestige||0)*0.05;
+// Jede Prestige-Stufe gibt +5 % auf Klickstärke UND automatische Produktion.
+const perClick=()=>(1+DEFS.reduce((a,d)=>a+(d.click||0)*own(d.k),0))*prestigeMultiplier()*specialMult('click')*boostMult()*(S.god&&isAdmin?1000:1)*gm;
+const cps=()=>DEFS.reduce((a,d)=>a+(d.cps||0)*own(d.k),0)*prestigeMultiplier()*specialMult('prod');
+const fmt=n=>{n=Math.floor(n);if(n<1e4)return String(n);const u=['K','M','B','T','Qa','Qi'];let i=-1,x=n;while(x>=1000&&i<5){x/=1000;i++}return x.toFixed(x<100?2:1)+u[i]};
+const clamp=(v,a,b)=>Math.min(Math.max(v,a),b);
+function toast(t,x,y){const p=document.createElement('div');p.className='pop';p.textContent=t;p.style.left=(x==null?innerWidth/2-30:x)+'px';p.style.top=(y==null?innerHeight/2:y)+'px';while(document.querySelectorAll('.pop').length>10)document.querySelector('.pop').remove();document.body.appendChild(p);setTimeout(()=>p.remove(),800)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.tab').forEach(t=>t.hidden=t.id!=='t-'+b.dataset.t);renderExtras()});
+const btns={};
+DEFS.forEach(d=>{const b=document.createElement('button');b.className='up';const l=document.createElement('span'),r=document.createElement('b');b.append(l,r);b.onclick=()=>{const c=cost(d);if(S.c>=c){S.c-=c;S.own[d.k]=own(d.k)+1;S.quests.bought=(S.quests.bought||0)+1;ui();renderExtras()}};$(d.cps?'ups':'cs').appendChild(b);btns[d.k]={b,l,r}});
+const last={};
+function ui(){
+  const a=fmt(S.c);if(last.c!==a){last.c=a;$('cnt').textContent=a;$('mini').textContent='🍪 '+a}
+  const activeSpecial=specialById(S.equippedSpecial);const b=fmt(cps())+' pro Sekunde'+(activeSpecial?' · '+activeSpecial.emoji+' '+Math.round((activeSpecial.prod-1)*100)+'%':'');if(last.p!==b){last.p=b;$('cps').textContent=b}
+  const bm=boostMult();let tt,pct=0;
+  if(bm>1){const sec=Math.max(0,Math.ceil((S.boost.end-Date.now())/1000));tt='🚀 Tipp-Boost ×'+bm+' · noch '+Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');pct=sec/180*100}
+  else{const nb=nextBoostQuest();if(nb){tt=nb.ready?'🎁 Tipp-Boost bereit – im 🎁-Tab starten!':'👆 Tipp-Boost ×'+nb.q.boost.m+' bei '+nb.q.goal+' Tipps: '+nb.prog+'/'+nb.q.goal;pct=nb.prog/nb.q.goal*100}else tt='⏳ Neue Tipp-Boosts bald verfügbar'}
+  if(last.tm!==tt){last.tm=tt;$('tm').textContent=tt;$('tb').style.width=Math.min(100,pct)+'%'}
+  DEFS.forEach(d=>{const x=btns[d.k],c=cost(d),key=own(d.k)+'|'+c;
+    if(last[d.k]!==key){last[d.k]=key;x.l.textContent=d.n+' ×'+own(d.k);const sm=document.createElement('small');sm.textContent=d.d;x.l.appendChild(sm);x.r.textContent=fmt(c)+' 🍪'}
+    const dis=S.c<c;if(x.b.disabled!==dis)x.b.disabled=dis});
+}
+$('ck').addEventListener('pointerdown',e=>{const g=perClick();if(curBoss&&curBoss.hp>0){pend++;myDmg++;myBossId=curBoss.id;curBoss.hp--}S.c+=g;S.t+=g;S.quests.clicks=(S.quests.clicks||0)+1;toast('+'+fmt(g),e.clientX-8,e.clientY-24);ui();renderExtras()});
+setInterval(()=>{const g=cps()/10;S.c+=g;S.t+=g;ui()},100);
+setInterval(()=>{if(started){S.playSeconds=(S.playSeconds||0)+1;}},1000);
+setInterval(()=>{try{const old=localStorage.getItem('cc_save');if(old&&Math.floor(Date.now()/30000)!==Math.floor((window.__lastBackupAt||0)/30000)){localStorage.setItem('cc_save_bak',old);window.__lastBackupAt=Date.now()}localStorage.setItem('cc_save',JSON.stringify(S));localStorage.setItem('cc_name',$('nm').value)}catch(e){}},5000);
+
+// ---------- Belohnungen, Quests, Prestige und sichere Exporte ----------
+const QUESTS=[
+ {id:'clicks',name:'Fleißige Finger',desc:'Klicke 100-mal',goal:100,reward:2500,progress:()=>S.quests.clicks||0},
+ {id:'buy',name:'Investiere in die Zukunft',desc:'Kaufe 5 Upgrades',goal:5,reward:5000,progress:()=>S.quests.bought||0},
+ {id:'cookies',name:'Keks-Vermögen',desc:'Verdiene insgesamt 10.000 Kekse',goal:10000,reward:10000,progress:()=>Math.floor(S.t||0)},
+ {id:'b100',name:'🚀 Tipp-Boost ×2',desc:'Tippe 100-mal auf den Keks · dann 3 Min ×2',goal:100,reward:0,boost:{m:2,sec:180},progress:()=>S.quests.clicks||0},
+ {id:'b300',name:'🚀 Tipp-Boost ×3',desc:'Tippe 300-mal auf den Keks · dann 3 Min ×3',goal:300,reward:0,boost:{m:3,sec:180},progress:()=>S.quests.clicks||0},
+ {id:'b600',name:'🚀 Tipp-Boost ×4',desc:'Tippe 600-mal auf den Keks · dann 3 Min ×4',goal:600,reward:0,boost:{m:4,sec:180},progress:()=>S.quests.clicks||0},
+ {id:'b1000',name:'🚀 Tipp-Boost ×5',desc:'Tippe 1000-mal auf den Keks · dann 3 Min ×5',goal:1000,reward:0,boost:{m:5,sec:180},progress:()=>S.quests.clicks||0}
+];
+const QCD=600000;
+const qWait=q=>((S.quests.cd||{})[q.id]||0)>Date.now();
+const qProg=q=>Math.max(0,q.progress()-((S.quests.base||{})[q.id]||0));
+const qLeft=q=>{const s=Math.max(0,Math.ceil((((S.quests.cd||{})[q.id]||0)-Date.now())/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function nextBoostQuest(){for(const q of QUESTS){if(!q.boost||qWait(q))continue;const prog=Math.min(q.goal,qProg(q));return{q,prog,ready:prog>=q.goal}}return null}
+function dayKey(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function ensureDaily(){const day=dayKey();if(S.quests.day!==day){S.quests={day,clicks:0,bought:0,claimed:[],cd:{},base:{}};}if(!Array.isArray(S.quests.claimed))S.quests.claimed=[];if(!S.quests.cd)S.quests.cd={};if(!S.quests.base)S.quests.base={};}
+function renderExtras(){
+  specialSkinUpdate();if(isAdmin)promoAdminRender();ensureDaily();updateDot();if($('t-rewards').hidden&&$('t-prestige').hidden)return;const day=dayKey();const ready=S.daily.day!==day;const streak=(S.daily.streak||0)+(ready?1:0);const dailyReward=1000*Math.min(Math.max(streak,1),7)+Math.floor(cps()*20);
+$('dailyBox').innerHTML='';const title=document.createElement('b');title.textContent=ready?'🎁 Tagesbonus bereit!':'✅ Tagesbonus schon abgeholt';const desc=document.createElement('p');desc.textContent=ready?'Serie: '+streak+' Tag(e) · Belohnung: '+fmt(dailyReward)+' Kekse':'Komm morgen wieder, um deine Serie fortzusetzen.';const btn=document.createElement('button');btn.className='ab';btn.textContent=ready?'Bonus abholen':'Bereits abgeholt';btn.disabled=!ready;btn.onclick=()=>{S.c+=dailyReward;S.t+=dailyReward;S.daily.streak=(S.daily.day===new Date(Date.now()-86400000).getFullYear()+'-'+(new Date(Date.now()-86400000).getMonth()+1)+'-'+new Date(Date.now()-86400000).getDate())?(S.daily.streak||0)+1:Math.max(1,streak);S.daily.day=day;toast('🎁 +'+fmt(dailyReward));renderExtras();ui()};$('dailyBox').append(title,desc,btn);
+$('questList').innerHTML='';QUESTS.forEach(q=>{const done=qWait(q),prog=done?0:Math.min(q.goal,qProg(q)),box=document.createElement('div');box.className='cardx';const h=document.createElement('b');h.textContent=q.name;const d=document.createElement('div');d.textContent=q.desc+' · '+fmt(prog)+' / '+fmt(q.goal);const meter=document.createElement('div');meter.className='meter';const bar=document.createElement('span');bar.style.width=(prog/q.goal*100)+'%';meter.append(bar);const b=document.createElement('button');b.className='ab';b.style.width='100%';b.style.marginTop='8px';b.textContent=done?'⏳ Neue Quest in '+qLeft(q):prog>=q.goal?(q.boost?'🚀 Boost starten (×'+q.boost.m+' · '+(q.boost.sec/60)+' Min)':'Belohnung: '+fmt(q.reward)+' 🍪'):'Weiter spielen';b.disabled=done||prog<q.goal;b.onclick=()=>{S.quests.cd[q.id]=Date.now()+QCD;S.quests.base[q.id]=q.progress();if(q.boost){const act=boostMult();S.boost={m:Math.max(act,q.boost.m),end:Date.now()+q.boost.sec*1000};toast('🚀 Boost ×'+S.boost.m+' für '+(q.boost.sec/60)+' Min!')}else{S.c+=q.reward;S.t+=q.reward;toast('🎁 +'+fmt(q.reward))}saveNow();renderExtras();ui()};box.append(h,d,meter,b);$('questList').append(box)});
+const goal=1000000;const progress=Math.min(100,(S.t||0)/goal*100);$('prestigeInfo').innerHTML='Prestige-Level: <b>'+ (S.prestige||0)+'</b><br>Lebenszeit-Kekse: '+fmt(S.t)+' / '+fmt(goal)+'<br>Bonus: +'+((S.prestige||0)*5)+'% auf Klickstärke und Produktion';$('prestigeBar').style.width=progress+'%';$('bPrestige').disabled=(S.t||0)<goal;ptUpdate();
+}
+$('bExport').onclick=()=>{try{localStorage.setItem('cc_save_bak',localStorage.getItem('cc_save')||JSON.stringify(S));const code=btoa(unescape(encodeURIComponent(JSON.stringify(S))));$('saveCode').value=code;toast('💾 Export bereit');}catch(e){alert('Export fehlgeschlagen.')}};
+$('bImport').onclick=()=>{try{const code=$('saveCode').value.trim();const x=JSON.parse(decodeURIComponent(escape(atob(code))));if(!x||typeof x.c!=='number'||!x.own||typeof x.own!=='object')throw Error('invalid');if(!confirm('Aktuellen Spielstand sichern und durch den Import ersetzen?'))return;localStorage.setItem('cc_save_bak',localStorage.getItem('cc_save')||JSON.stringify(S));S={...BASE,...x,own:{...(x.own||{})},daily:{...BASE.daily,...(x.daily||{})},quests:{...BASE.quests,...(x.quests||{})}};fixS();localStorage.setItem('cc_save',JSON.stringify(S));ui();renderExtras();alert('Spielstand importiert.');}catch(e){alert('Der Code ist ungültig oder beschädigt. Dein aktueller Spielstand wurde nicht verändert.')}};
+$('bPrestige').onclick=()=>{if((S.t||0)<1000000)return;if(!confirm('Prestige aktivieren? Kekse und Upgrades werden zurückgesetzt. Zuvor wird eine Sicherung erstellt.'))return;localStorage.setItem('cc_save_bak',JSON.stringify(S));S.prestige=(S.prestige||0)+1;S.prestigeTotal=(S.prestigeTotal||0)+Math.floor(S.t);S.c=0;S.t=0;S.own={};S.god=false;saveNow();ui();renderExtras();toast('🌌 Prestige '+S.prestige+'!')};
+function saveNow(){try{S.lastSeen=Date.now();localStorage.setItem('cc_save',JSON.stringify(S));localStorage.setItem('cc_name',$('nm').value)}catch(e){}}
+addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveNow()});
+// Spielzeit-Belohnungen
+const PT=[5,15,30,60,120,240];
+const ptAmt=m=>Math.floor(m*300+cps()*m*15);
+const ptEls=PT.map(m=>{const w=document.createElement('div');w.className='g';const sp=document.createElement('span');sp.style.cssText='flex:1;align-self:center';const b=document.createElement('button');b.className='ab';b.style.flex='0 0 130px';w.append(sp,b);$('ptl').appendChild(w);
+  b.onclick=()=>{if(S.ptClaimed.indexOf(m)<0&&(S.playSeconds||0)>=m*60){const a=ptAmt(m);S.ptClaimed.push(m);S.c+=a;S.t+=a;toast('⏱️ +'+fmt(a));saveNow();ptUpdate();updateDot();ui()}};return{m,sp,b}});
+function ptUpdate(){const ps=S.playSeconds||0;$('plt').textContent='Spielzeit: '+playFmt(ps);ptEls.forEach(e=>{const done=S.ptClaimed.indexOf(e.m)>=0,ok=ps>=e.m*60;e.sp.textContent='⏱️ '+e.m+' Min';e.b.disabled=done||!ok;e.b.textContent=done?'✅':(ok?'+'+fmt(ptAmt(e.m)):'noch '+Math.max(1,Math.ceil(e.m-ps/60))+' Min')})}
+function updateDot(){let any=S.daily.day!==dayKey();const ps=S.playSeconds||0;PT.forEach(m=>{if(ps>=m*60&&S.ptClaimed.indexOf(m)<0)any=true});QUESTS.forEach(q=>{if(!qWait(q)&&qProg(q)>=q.goal)any=true});$('navRw').classList.toggle('dot',any)}
+// Seltene goldene Kekse: alle 2–4 Minuten erscheint kurz ein Bonus.
+const gold=$('goldCookie');let goldUntil=0,goldNext=Date.now()+45000+Math.random()*75000;
+setInterval(()=>{const now=Date.now();if(!started)return;if(now>=goldNext&&!goldUntil){goldUntil=now+9000;gold.style.display='block';gold.style.left=(12+Math.random()*Math.max(20,innerWidth-100))+'px';gold.style.top=(100+Math.random()*Math.max(20,innerHeight-230))+'px'}if(goldUntil&&now>=goldUntil){goldUntil=0;gold.style.display='none';goldNext=now+120000+Math.random()*120000}},500);
+gold.addEventListener('pointerdown',()=>{const reward=Math.max(1000,Math.floor(S.c*.12+cps()*30+500));S.c+=reward;S.t+=reward;goldUntil=0;gold.style.display='none';goldNext=Date.now()+120000+Math.random()*120000;toast('✨ Goldener Keks +'+fmt(reward));ui();renderExtras()});
+setInterval(renderExtras,3000);renderExtras();
+
+// ---------- Netzwerk (ein gemeinsamer Raum) ----------
+let dbg='';const CFG={config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:global.stun.twilio.com:3478'},{urls:['turn:openrelay.metered.ca:80','turn:openrelay.metered.ca:443','turn:openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'}]}};
+const ROOM='km9cc-main-v1',ADMIN_HASH='381ca801f5fff30e5cdcde9a239a74c70f3f5e5d60d8526bc05b7c1cc58edb24';
+const safe=(c,m)=>{try{c.send(m)}catch(e){}};
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function okCode(c){try{return(await sha(String(c||'')))===ADMIN_HASH}catch(e){return false}}
+function begin(){if(started)return;started=true;$('lobby').style.display='none';try{localStorage.setItem('cc_name',$('nm').value)}catch(e){}connect();tryAuto()}
+$('bGo').onclick=begin;
+$('bName').onclick=()=>{const n=prompt('Dein Name:',nm());if(n){$('nm').value=n.slice(0,12);try{localStorage.setItem('cc_name',$('nm').value)}catch(e){}}};
+$('bLock').onclick=async()=>{const c=prompt('Admin-Code:');if(!c)return;if(await okCode(c)){try{localStorage.setItem('cc_adm',c)}catch(e){}unlock(c)}else alert('Falscher Code')};
+function unlock(c){isAdmin=true;admCode=c;setupAdmin();if(conn&&conn.open)safe(conn,{type:'auth',pw:c})}
+async function tryAuto(){try{const c=localStorage.getItem('cc_adm');if(c&&await okCode(c))unlock(c)}catch(e){}}
+let retry=null;
+function later(ms){if(kicked)return;clearTimeout(retry);retry=setTimeout(connect,ms)}
+function connect(){
+  if(!window.Peer){dbg='Skript nicht geladen';$('st').textContent='⚪ Offline ('+dbg+')';return}
+  try{if(peer)peer.destroy()}catch(e){}
+  hosting=false;conn=null;conns=new Map();
+  peer=new Peer(ROOM,CFG);
+  peer.on('open',()=>{hosting=true;loadKnown()});
+  peer.on('disconnected',()=>{try{peer.reconnect()}catch(e){}});
+  peer.on('connection',c=>{
+    c.on('open',()=>{conns.set(c.peer,{c:c,name:'Spieler',t:0,cur:0,r:0,admin:false});safe(c,{type:'chatlog',log:chatLog});safe(c,{type:'promosync',list:promoCodes()})});
+    c.on('data',async d=>{const p=conns.get(c.peer);if(!d||!p)return;
+      if(d.type==='state'){p.name=String(d.name||'Spieler').slice(0,12);p.t=+d.t||0;p.cur=+d.c||0;p.r=+d.r||0;p.pt=+d.pt||0;p.base=+d.base||0;p.w=+d.w||0;p.pid=String(d.pid||'').slice(0,20)||p.pid;if(p.pid&&banned.has(p.pid)){safe(c,{type:'kick'});setTimeout(()=>{try{c.close()}catch(e){}},300);return}noteKnown(p)}
+      else if(d.type==='star'){if(+d.s!==gs)gs=+d.s}
+      else if(d.type==='auth'){if(await okCode(d.pw))p.admin=true}
+      else if(d.type==='cmd'&&p.admin)exec(d);
+      else if(d.type==='chat'){if(p.muted||Date.now()-(p.lastChat||0)<800)return;p.lastChat=Date.now();const m={type:'chat',from:p.name,text:String(d.text||'').slice(0,120),ts:Date.now()};chatLog.push(m);if(chatLog.length>50)chatLog.shift();conns.forEach(q=>safe(q.c,m));addChat(m)}
+      else if(d.type==='bossdmg'){if(boss&&+d.id===boss.id){boss.hp-=clamp(Math.floor(+d.n)||0,0,200);checkBoss()}}
+      else if(d.type==='pay'){const a=clamp(Math.floor(+d.a||0),1,1e13),t=String(d.to||''),m={type:'gift',a:a,from:p.name};
+        if(t==='host')onClient(m);else{const q=conns.get(t);if(q&&q!==p)safe(q.c,m);else safe(p.c,{type:'gift',a:a,from:'Rückzahlung'})}}});
+    c.on('close',()=>conns.delete(c.peer));c.on('error',()=>conns.delete(c.peer));
+  });
+  peer.on('error',e=>{if(e.type==='unavailable-id'){dbg='Beitritt …';joinAsClient()}else{dbg=e.type;later(4000+Math.random()*3000)}});
+}
+function joinAsClient(){
+  try{peer.destroy()}catch(e){}
+  peer=new Peer(undefined,CFG);
+  peer.on('open',()=>{
+    conn=peer.connect(ROOM,{reliable:true});
+    const to=setTimeout(()=>{if(!conn||!conn.open){dbg='Zeitüberschreitung';later(3000)}},8000);
+    conn.on('open',()=>{clearTimeout(to);if(admCode)safe(conn,{type:'auth',pw:admCode})});
+    conn.on('data',onClient);
+    conn.on('close',()=>{conn=null;players=players.map(p=>({...p,id:'off:'+(p.pid||p.id),on:false}));later(1000+Math.random()*2500)});
+  });
+  peer.on('error',e=>{dbg=e.type;later(3000+Math.random()*3000)});
+}
+function onClient(d){
+  if(!d)return;
+  if(d.type==='players'&&Array.isArray(d.list)){players=d.list.slice(0,100);const v=clamp(Math.round(+d.gm)||1,1,1000),l=clamp(+d.left||0,0,864e5);gm=v;gmEnd=(v>1&&l>0)?Date.now()+l:0;gs=+d.gs;curBoss=d.boss?Object.assign({},d.boss,{at:Date.now()}):null}
+  else if(d.type==='promo'){const p=d;
+    if(p.op==='promoCreate'){const code=promoCodeNormalize(p.code),cookies=Math.max(0,Math.min(1e13,Math.floor(+p.cookies||0))),skin=specialById(p.skin)?p.skin:'';if(code.length>=3&&!promoCodes().some(x=>x.code===code)){promoCodes().push({code,cookies,skin});saveNow();if(isAdmin)promoAdminRender();showAnn('🎟️ Neuer Promo-Code verfügbar!',8000)}}
+    else if(p.op==='promoDelete'){const code=promoCodeNormalize(p.code);S.promoCodes=promoCodes().filter(x=>x.code!==code);saveNow();if(isAdmin)promoAdminRender()}}
+  else if(d.type==='promosync'){let add=0;(d.list||[]).slice(0,50).forEach(x=>{const code=promoCodeNormalize(x&&x.code),cookies=Math.max(0,Math.min(1e13,Math.floor(+(x&&x.cookies)||0))),skin=specialById(x&&x.skin)?x.skin:'';if(code.length>=3&&!promoCodes().some(y=>y.code===code)){promoCodes().push({code,cookies,skin});add++}});if(add){saveNow();if(isAdmin)promoAdminRender()}}
+  else if(d.type==='skin'){const id=String(d.skin||''),x=specialById(id);if(x&&!S.specialSkins.includes(id)){S.specialSkins.push(id);saveNow();specialSkinUpdate();showAnn('🎁 Du hast '+x.emoji+' '+x.name+' erhalten!',10000);toast('Neuer Spezial-Skin!')}}
+  else if(d.type==='chat'){addChat(d)}
+  else if(d.type==='chatlog'){chat.length=0;(d.log||[]).slice(-50).forEach(m=>chat.push({from:String(m.from||'?').slice(0,12),text:String(m.text||'').slice(0,120)}));if(!$('t-chat').hidden)renderChat()}
+  else if(d.type==='announce'){showAnn('📢 '+String(d.text||'').slice(0,140),15000)}
+  else if(d.type==='warn'){showAnn('⚠️ Verwarnung vom Admin: '+String(d.text||'').slice(0,100),20000)}
+  else if(d.type==='rename'){const n=String(d.name||'').trim().slice(0,12);if(n){$('nm').value=n;saveNow()}}
+  else if(d.type==='kick'){kicked=true;showAnn('🚫 Du wurdest vom Admin aus dem Spiel entfernt.',60000);try{if(conn)conn.close()}catch(e){}}
+  else if(d.type==='bossdown'){if(myBossId===d.id&&myDmg>0){const a=Math.floor(5000+cps()*600+S.c*0.1);S.c+=a;S.t+=a;showAnn('👹 Boss besiegt! Deine Belohnung: +'+fmt(a)+' 🍪',15000);saveNow()}else showAnn('👹 Boss besiegt!',8000);myDmg=0;myBossId=0;curBoss=null}
+  else if(d.type==='bossfail'){showAnn('👹 Der Boss ist entkommen …',8000);myDmg=0;myBossId=0;curBoss=null}
+  else if(d.type==='gift'){const a=clamp(+d.a||0,0,1e13);if(a){S.c+=a;if(!d.from)S.t+=a;toast(d.from?'💸 '+String(d.from).slice(0,12)+': +'+fmt(a):'🎁 +'+fmt(a));ui()}}
+  else if(d.type==='take'){const f=clamp(+d.f||0,0,1),l=Math.floor(S.c*f);if(l){S.c-=l;toast('💸 −'+fmt(l));ui()}}
+  else if(d.type==='takeAmount'){const a=clamp(Math.floor(+d.a||0),0,1e13),l=Math.min(S.c,a);S.c-=l;saveNow();toast('💸 −'+fmt(l));ui()}
+  else if(d.type==='set'){S.c=clamp(Math.floor(+d.a||0),0,1e13);saveNow();toast('💰 Kontostand gesetzt: '+fmt(S.c));ui()}
+  else if(d.type==='resetboard'){S.rankBase=S.t||0;saveNow();board();toast('🏆 Bestenliste zurückgesetzt')}
+}
+try{players=JSON.parse(localStorage.getItem('cc_known')||'[]').filter(e=>e&&e.pid).map(e=>({...e,id:'off:'+e.pid,on:false}))}catch(e){}
+function loadKnown(){try{const a=JSON.parse(localStorage.getItem('cc_known')||'[]');a.forEach(e=>{if(e&&e.pid&&e.pid!==S.pid&&!known.has(e.pid))known.set(e.pid,{pid:e.pid,name:String(e.name||'Spieler').slice(0,12),t:+e.t||0,c:+e.c||0,r:+e.r||0,pt:+e.pt||0,base:+e.base||0,w:+e.w||0,seen:+e.seen||Date.now()})})}catch(e){}}
+function noteKnown(p){if(!p.pid)return;let e=known.get(p.pid);if(!e){e={pid:p.pid};known.set(p.pid,e)}
+  if(e.pendingReset){safe(p.c,{type:'resetboard'});e.pendingReset=false;p.base=p.t}
+  Object.assign(e,{name:p.name,t:p.t,c:p.cur,r:p.r,pt:p.pt,base:p.base,w:p.w||0,seen:Date.now()})}
+function hostTick(){
+  if(aEnd&&Date.now()>=aEnd){aM=1;aEnd=0;gm=1;gmEnd=0}
+  if(boss){if(pend){boss.hp-=pend;pend=0;checkBoss()}if(boss&&Date.now()>=boss.end){boss=null;const m={type:'bossfail'};conns.forEach(p=>safe(p.c,m));onClient(m)}}else pend=0;
+  curBoss=boss?{id:boss.id,name:boss.name,hp:boss.hp,max:boss.max,left:boss.end-Date.now(),at:Date.now()}:null;
+  known.set(S.pid,{pid:S.pid,name:nm(),t:S.t,c:S.c,r:cps(),pt:S.playSeconds||0,base:S.rankBase||0,w:weekEarned(),seen:Date.now()});
+  const live=new Map();conns.forEach((p,id)=>{if(p.pid)live.set(p.pid,id)});
+  const list=[];
+  known.forEach((e,pid)=>{if(Date.now()-(e.seen||0)>30*864e5){known.delete(pid);return}
+    const me=pid===S.pid,id=me?'host':live.get(pid);
+    list.push({id:id||'off:'+pid,pid,name:e.name,t:e.t,c:e.c,r:e.r,pt:e.pt||0,base:e.base||0,w:e.w||0,seen:e.seen,on:me||!!id})});
+  conns.forEach((p,id)=>{if(!p.pid)list.push({id,pid:'',name:p.name,t:p.t,c:p.cur,r:p.r,pt:p.pt||0,base:p.base||0,on:true})});
+  players=list.slice(0,100);
+  const msg={type:'players',list:players,gm:aM,left:aEnd?aEnd-Date.now():0,gs,boss:curBoss};
+  conns.forEach(p=>safe(p.c,msg));
+}
+setInterval(()=>{if(players.length){try{localStorage.setItem('cc_known',JSON.stringify(players))}catch(e){}}},5000);
+function deliver(to,msg){
+  if(to==='all'){conns.forEach(p=>safe(p.c,msg));onClient(msg)}
+  else if(to==='host')onClient(msg);
+  else{const p=conns.get(to);if(p)safe(p.c,msg)}
+}
+function exec(c){
+  if(c.c==='gift'){const a=clamp(+c.a||0,0,1e13);if(a&&typeof c.to==='string')deliver(c.to,{type:'gift',a})}
+  else if(c.c==='take'){const f=clamp(+c.f||0,0,1);if(f&&typeof c.to==='string')deliver(c.to,{type:'take',f})}
+  else if(c.c==='takeAmount'){const a=clamp(Math.floor(+c.a||0),0,1e13);if(a&&typeof c.to==='string')deliver(c.to,{type:'takeAmount',a})}
+  else if(c.c==='set'){const a=clamp(Math.floor(+c.a||0),0,1e13);if(typeof c.to==='string')deliver(c.to,{type:'set',a})}
+  else if(c.c==='resetboard'){S.rankBase=S.t||0;saveNow();conns.forEach(p=>safe(p.c,{type:'resetboard'}));known.forEach((e,pid)=>{if(pid===S.pid)return;if(![...conns.values()].some(p=>p.pid===pid)){e.pendingReset=true;e.base=e.t}});toast('🏆 Keks-Bestenliste zurückgesetzt');hostTick()}
+  else if(c.c==='announce'){const t=String(c.text||'').slice(0,140);if(t){const m={type:'announce',text:t};conns.forEach(p=>safe(p.c,m));onClient(m)}}
+  else if(c.c==='warn'){deliver(String(c.to),{type:'warn',text:String(c.text||'Bitte benimm dich.').slice(0,100)})}
+  else if(c.c==='rename'){const n=String(c.name||'').trim().slice(0,12);if(n)deliver(String(c.to),{type:'rename',name:n})}
+  else if(c.c==='mute'){const q=conns.get(String(c.to));if(q)q.muted=!q.muted}
+  else if(c.c==='kick'){const q=conns.get(String(c.to));if(q){if(q.pid)banned.add(q.pid);safe(q.c,{type:'kick'});setTimeout(()=>{try{q.c.close()}catch(e){}},300)}}
+  else if(c.c==='boss'){const hp=clamp(Math.floor(+c.hp)||1000,10,1e9);boss={id:Date.now(),name:String(c.name||'Keks-Monster').slice(0,20),hp:hp,max:hp,end:Date.now()+clamp(+c.min||5,1,60)*60000};showAnn('👹 Boss-Event gestartet! Tippt alle auf den Keks!',10000);const m={type:'announce',text:'👹 Boss-Event: '+boss.name+' ist da! Tippt alle auf den Keks!'};conns.forEach(p=>safe(p.c,m));hostTick()}
+  else if(c.c==='bossend'){boss=null;curBoss=null;const m={type:'bossfail'};conns.forEach(p=>safe(p.c,m));onClient(m);hostTick()}
+  else if(c.c==='promoCreate'||c.c==='promoDelete'){const m={type:'promo',op:c.c,code:c.code,cookies:c.cookies,skin:c.skin};conns.forEach(p=>safe(p.c,m));onClient(m)}
+  else if(c.c==='skin'){if(typeof c.to==='string')deliver(c.to,{type:'skin',skin:String(c.skin||'')})}
+  else if(c.c==='mult'){aM=clamp(Math.round(+c.m)||1,1,1000);const d=clamp(+c.d||0,0,1440);aEnd=(aM>1&&d>0)?Date.now()+d*60000:0;gm=aM;gmEnd=aEnd;hostTick()}
+}
+const adminLog=[];
+function logAdmin(text){adminLog.unshift(new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' · '+text);adminLog.splice(12);const el=$('aLog');if(el){el.textContent='';if(!adminLog.length)el.textContent='Noch keine Aktionen.';adminLog.forEach(line=>{const d=document.createElement('div');d.textContent=line;d.style.padding='4px 0';el.appendChild(d)})}}
+function adminCmd(c){if(!isAdmin)return;const labels={gift:'Cookies vergeben',take:'Cookies abziehen',takeAmount:'Betrag abziehen',set:'Kontostand setzen',announce:'Ankündigung senden',boss:'Boss-Event starten',bossend:'Boss-Event beenden',mult:'Multiplikator ändern',rename:'Spieler umbenennen',warn:'Spieler verwarnen',mute:'Chat stummschalten',kick:'Spieler entfernen',resetboard:'Keks-Bestenliste zurücksetzen'};logAdmin((labels[c.c]||c.c)+' · Ziel: '+String(c.to||'alle'));if(hosting)exec(c);else if(conn&&conn.open)safe(conn,Object.assign({type:'cmd'},c))}
+setInterval(()=>{
+  if(hosting)hostTick();else if(conn&&conn.open){safe(conn,{type:'state',pid:S.pid,name:nm(),t:Math.floor(S.t),c:Math.floor(S.c),r:cps(),pt:S.playSeconds||0,base:S.rankBase||0,w:weekEarned()});if(pend&&curBoss){safe(conn,{type:'bossdmg',id:curBoss.id,n:pend});pend=0}else if(!curBoss)pend=0}
+  board();
+},1000);
+
+// ---------- Anzeige ----------
+setInterval(()=>{
+  if(gm>1&&gmEnd&&Date.now()>=gmEnd){gm=1;gmEnd=0;if(hosting){aM=1;aEnd=0}}
+  const b=$('buff');
+  if(gm>1){let t='unbegrenzt';if(gmEnd){const s=Math.max(0,Math.ceil((gmEnd-Date.now())/1000));t='noch '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}b.textContent='⚡ Klicks ×'+gm+' · '+t;b.hidden=false}else b.hidden=true;
+  if(gm!==lastGm){if(gm>1)toast('⚡ Klicks ×'+gm);lastGm=gm}
+},500);
+const isMe=p=>hosting?p.id==='host':(peer&&p.id===peer.id);
+function board(){
+  let list=players.map(p=>({pid:p.pid,id:p.id,n:String(p.name||'Spieler').slice(0,12),t:+p.t||0,c:+p.c||0,r:+p.r||0,pt:+p.pt||0,base:+p.base||0,w:+p.w||0,on:p.on!==false,me:isMe(p)||(!!p.pid&&p.pid===S.pid)}));
+  list.forEach(p=>{if(p.me){p.on=true;p.t=S.t;p.c=S.c;p.r=cps();p.pt=S.playSeconds||0;p.base=S.rankBase||0;p.w=weekEarned();p.n=nm()}});
+  if(!list.some(p=>p.me))list.push({id:'self',pid:S.pid,n:nm(),t:S.t,c:S.c,r:cps(),pt:S.playSeconds||0,base:S.rankBase||0,w:weekEarned(),on:true,me:true});
+  if(!list.length)list=[{id:'host',n:nm(),t:S.t,c:S.c,r:cps(),pt:S.playSeconds||0,base:S.rankBase||0,w:weekEarned(),on:true,me:true}];
+  const rv=p=>rankMode==='time'?p.pt:rankMode==='week'?p.w:(p.t-p.base);list.sort((a,b)=>rv(b)-rv(a));
+  $('bd').textContent='';let sum=0;
+  list.forEach((p,i)=>{sum+=p.t;const d=document.createElement('div');d.className='row'+(p.me?' me':'');const a=document.createElement('span'),b=document.createElement('span');a.textContent=(i+1)+'. '+p.n+(p.me?' (du)':'')+(p.on?'':' · offline');d.style.opacity=p.on?1:.55;b.textContent=rankMode==='time'?playFmt(p.pt):rankMode==='week'?fmt(Math.max(0,p.w))+' 🍪':fmt(Math.max(0,p.t-p.base))+' 🍪';d.append(a,b);$('bd').appendChild(d)});
+  $('team').textContent=fmt(sum)+' 🍪';$('rankNote').textContent=rankMode==='time'?'Sortiert nach gespeicherter Spielzeit.':rankMode==='week'?'Diese Woche verdient – setzt sich jeden Montag zurück. Die Top 3 bekommen eine Belohnung.':'Sortiert nach verdienten Keksen seit dem letzten Ranglisten-Reset.';
+  const online=hosting||conn;if($('aStatus'))$('aStatus').textContent=(hosting?'🟢 Du verwaltest das Spiel (Host)':(conn?'🟢 Mit dem Host verbunden':'🟠 Keine Verbindung'))+' · '+list.filter(p=>p.on).length+' online';$('st').textContent=online?'🟢 '+list.filter(p=>p.on).length+' online':'⚪ Verbinde …'+(dbg?' ('+dbg+')':'');
+  $('hint').textContent=online?'Goldene Sterne 🌟 erscheinen für alle gleichzeitig – wer zuerst tippt, gewinnt!':'Verbindung wird aufgebaut … du kannst schon klicken.';
+  const po=list.filter(p=>!p.me&&p.on),ps=po.map(p=>p.id+p.n).join('|');
+    if(ps!==paySig){paySig=ps;const cur=$('payTo').value,skinCur=$('skinTo').value;$('payTo').textContent='';$('modTo').textContent='';$('skinTo').textContent='';po.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.n;$('payTo').appendChild(o);$('modTo').appendChild(o.cloneNode(true));$('skinTo').appendChild(o.cloneNode(true))});if([...$('payTo').options].some(o=>o.value===cur))$('payTo').value=cur;if([...$('skinTo').options].some(o=>o.value===skinCur))$('skinTo').value=skinCur;$('payGo').disabled=!po.length;$('skinGiveGo').disabled=!po.length}
+    if(isAdmin){const others=list.filter(p=>!p.me&&p.on),sig=others.map(p=>p.id+p.n).join();
+    if(sig!==aSig){aSig=sig;aEls={};$('aList').textContent='';
+      others.forEach(p=>{const w=document.createElement('div');w.style.marginBottom='12px';const h=document.createElement('div');h.className='row';const nme=document.createElement('b');nme.textContent=p.n;const bal=document.createElement('span');h.append(nme,bal);aEls[p.id]=bal;
+        const g1=document.createElement('div');g1.className='g';[1e6,1e9,1e12].forEach(a=>{const b=document.createElement('button');b.className='ab';b.textContent='+'+fmt(a);b.onclick=()=>adminCmd({c:'gift',to:p.id,a:a});g1.appendChild(b)});
+        const amt=document.createElement('input');amt.className='in';amt.type='number';amt.min='0';amt.step='1';amt.placeholder='Betrag';amt.style.width='100%';
+        const g2=document.createElement('div');g2.className='g';const give=document.createElement('button');give.className='ab';give.textContent='Geben';give.onclick=()=>{const a=Math.floor(+amt.value);if(Number.isFinite(a)&&a>0)adminCmd({c:'gift',to:p.id,a:Math.min(a,1e13)})};const take=document.createElement('button');take.className='ab';take.textContent='Nehmen';take.onclick=()=>{const a=Math.floor(+amt.value);if(Number.isFinite(a)&&a>0)adminCmd({c:'takeAmount',to:p.id,a:Math.min(a,1e13)})};const set=document.createElement('button');set.className='ab';set.textContent='Setzen';set.onclick=()=>{const a=Math.floor(+amt.value);if(amt.value.trim()!==''&&Number.isFinite(a)&&a>=0&&confirm('Kontostand von '+p.n+' auf '+fmt(a)+' setzen?'))adminCmd({c:'set',to:p.id,a:Math.min(a,1e13)})};g2.append(give,take,set);
+        const g3=document.createElement('div');g3.className='g';[[.25,'−25%'],[.5,'−50%'],[1,'−alles']].forEach(([f,l])=>{const b=document.createElement('button');b.className='ab';b.textContent=l;b.onclick=()=>adminCmd({c:'take',to:p.id,f:f});g3.appendChild(b)});
+        w.append(h,g1,amt,g2,g3);$('aList').appendChild(w)})}
+    others.forEach(p=>{const e=aEls[p.id];if(e)e.textContent=fmt(p.c)+' 🍪'})}
+}
+let adminBuilt=false;
+function setupAdmin(){
+  if(adminBuilt)return;adminBuilt=true;
+  $('navAdmin').hidden=false;
+  [1e3,1e6,1e9,1e12].forEach(a=>{let b=document.createElement('button');b.className='ab';b.textContent='+'+fmt(a);b.onclick=()=>{S.c+=a;S.t+=a;toast('+'+fmt(a));ui()};$('aSelf').appendChild(b);b=document.createElement('button');b.className='ab';b.textContent='+'+fmt(a);b.onclick=()=>adminCmd({c:'gift',to:'all',a:a});$('aAll').appendChild(b)});
+  const g=()=>{$('aGod').textContent='Klick ×1000: '+(S.god?'AN ✅':'AUS')};g();$('aGod').onclick=()=>{S.god=!S.god;g()};
+  $('aSelfSet').onclick=()=>{const raw=$('aSelfAmount').value.trim();const a=Math.floor(+raw);if(raw!==''&&Number.isFinite(a)&&a>=0){S.c=Math.min(a,1e13);saveNow();ui();toast('Kontostand gesetzt: '+fmt(S.c))}};
+  $('aAllCustom').onclick=()=>{const a=Math.floor(+$('aAllAmount').value);if(Number.isFinite(a)&&a>0)adminCmd({c:'gift',to:'all',a:Math.min(a,1e13)})};
+  $('aResetBoard').onclick=()=>{if(confirm('Keks-Bestenliste für alle aktuell verbundenen Spieler zurücksetzen? Spielstände und Spielzeit bleiben erhalten.'))adminCmd({c:'resetboard'})};
+  $('aSync').onclick=()=>{logAdmin('Spielerliste manuell aktualisiert');if(hosting)hostTick();board();toast('🔄 Aktualisiert')};
+  $('aClearLog').onclick=()=>{adminLog.length=0;logAdmin('Protokoll geleert')};
+  $('aMultGo').onclick=()=>{const m=clamp(Math.round(+$('aMult').value)||1,1,1000);$('aMult').value=m;adminCmd({c:'mult',m:m,d:+$('aDur').value||0})};
+}
+
+// ---------- Goldener Stern ----------
+function rnd(r){let a=(r*2654435761)>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296}}
+const gd=document.createElement('button');gd.textContent='🌟';gd.style.cssText='position:fixed;display:none;font-size:60px;background:none;border:0;z-index:5;animation:pulse 1s infinite';document.body.appendChild(gd);
+setInterval(()=>{const n=Date.now(),s=Math.floor(n/150000),ph=n%150000,g=rnd(s+777),off=g()*135000,x=.1+.8*g(),y=.15+.7*g(),a=ph>=off&&ph<off+9000&&gs!==s&&myG!==s&&started;
+  gd.style.display=a?'block':'none';if(a){gd.style.left=(x*(innerWidth-80))+'px';gd.style.top=(y*(innerHeight-120))+'px';gd.dataset.s=s}},250);
+gd.addEventListener('pointerdown',e=>{const s=+gd.dataset.s;if(gs===s||myG===s)return;myG=s;gs=s;const r=Math.max(50,Math.floor(S.c*0.15+cps()*10));S.c+=r;S.t+=r;gd.style.display='none';toast('🌟 +'+fmt(r),e.clientX-30,e.clientY-30);ui();if(conn&&conn.open)try{conn.send({type:'star',s:s})}catch(x){}});
+ui();board();renderExtras();
+skUpdate();$('ck').textContent=specialById(S.equippedSpecial)?.emoji||S.skin;
+if(S.lastSeen)grantAway((Date.now()-S.lastSeen)/1000);
+weekCheck();
+try{if(localStorage.getItem('cc_name'))begin()}catch(e){}
+</script></body></html>
